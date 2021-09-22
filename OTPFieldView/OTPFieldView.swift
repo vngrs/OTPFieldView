@@ -65,7 +65,8 @@ import UIKit
     public var hideEnteredText: Bool = false
     public var requireCursor: Bool = true
     public var cursorColor: UIColor = UIColor.blue
-    public var fieldSize: CGFloat = 60
+    public var fieldSizeWidth: CGFloat = 60
+    public var fieldSizeHeight: CGFloat = 60
     public var separatorSpace: CGFloat = 16
     public var fieldBorderWidth: CGFloat = 1
     public var shouldAllowIntermediateEditing: Bool = true
@@ -74,6 +75,7 @@ import UIKit
     public var defaultBorderColor: UIColor = UIColor.gray
     public var filledBorderColor: UIColor = UIColor.clear
     public var errorBorderColor: UIColor?
+    public var textFieldCornerRadius: CGFloat = 4
     
     public weak var delegate: OTPFieldViewDelegate?
     
@@ -111,18 +113,18 @@ import UIKit
     
     fileprivate func getOTPField(forIndex index: Int) -> OTPTextField {
         let hasOddNumberOfFields = (fieldsCount % 2 == 1)
-        var fieldFrame = CGRect(x: 0, y: 0, width: fieldSize, height: fieldSize)
+        var fieldFrame = CGRect(x: 0, y: 0, width: fieldSizeWidth, height: fieldSizeHeight)
         
         if hasOddNumberOfFields {
             // Calculate from middle each fields x and y values so as to align the entire view in center
-            fieldFrame.origin.x = bounds.size.width / 2 - (CGFloat(fieldsCount / 2 - index) * (fieldSize + separatorSpace) + fieldSize / 2)
+            fieldFrame.origin.x = bounds.size.width / 2 - (CGFloat(fieldsCount / 2 - index) * (fieldSizeWidth + separatorSpace) + fieldSizeWidth / 2)
         }
         else {
             // Calculate from middle each fields x and y values so as to align the entire view in center
-            fieldFrame.origin.x = bounds.size.width / 2 - (CGFloat(fieldsCount / 2 - index) * fieldSize + CGFloat(fieldsCount / 2 - index - 1) * separatorSpace + separatorSpace / 2)
+            fieldFrame.origin.x = bounds.size.width / 2 - (CGFloat(fieldsCount / 2 - index) * fieldSizeWidth + CGFloat(fieldsCount / 2 - index - 1) * separatorSpace + separatorSpace / 2)
         }
         
-        fieldFrame.origin.y = (bounds.size.height - fieldSize) / 2
+        fieldFrame.origin.y = (bounds.size.height - fieldSizeWidth) / 2
         
         let otpField = OTPTextField(frame: fieldFrame)
         otpField.delegate = self
@@ -142,6 +144,7 @@ import UIKit
         // Set the border values if needed
         otpField.otpBorderColor = defaultBorderColor
         otpField.otpBorderWidth = fieldBorderWidth
+        otpField.otpCornerRadius = textFieldCornerRadius
         
         if requireCursor {
             otpField.tintColor = cursorColor

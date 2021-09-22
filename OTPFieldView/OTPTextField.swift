@@ -37,6 +37,9 @@ import UIKit
     
     /// Border width info for field
     public var otpBorderWidth: CGFloat = 2
+
+    /// Corner radius
+    public var otpCornerRadius: CGFloat = 4
     
     public var shapeLayer: CAShapeLayer!
     
@@ -58,7 +61,7 @@ import UIKit
             layer.cornerRadius = bounds.size.width / 2
             break
         case .roundedCorner:
-            layer.cornerRadius = 4
+            layer.cornerRadius = otpCornerRadius
             break
         case .square:
             layer.cornerRadius = 0
